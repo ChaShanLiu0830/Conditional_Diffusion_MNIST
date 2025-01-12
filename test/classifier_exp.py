@@ -76,7 +76,7 @@ class Trainer:
                 print(f"Epoch {epoch+1}/{epochs}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
 
                 # Save the best model if validation loss improves
-                if val_loss < self.best_val_loss:
+                if (val_loss < self.best_val_loss) & (epoch >= 10):
                     self.best_val_loss = val_loss
                     self.best_model_weights = copy.deepcopy(self.model.state_dict())
                     self.save_best_model(f"{self.model_folder}/{self.model_name}.pt")
@@ -192,9 +192,9 @@ def main():
     make_folder(args.model_path)
     make_folder(args.result_path)
     
-    
+    print(args.dataset_path)
     data = np.concatenate([pd.read_pickle(f"{args.dataset_path}_{i}.pkl") for i in range(0, 10)], axis = 1)
-    test_data = pd.read_pickle(f"{args.dataset_path}_test.pkl")
+    test_data = np.concatenate([pd.read_pickle(f"{args.dataset_path}_{i}.pkl") for i in range(10, 15)], axis = 1)
     print(test_data.shape)
     
     gen_dst = GenMNIST(data[args.diffusion_timestamp, ...].copy())
