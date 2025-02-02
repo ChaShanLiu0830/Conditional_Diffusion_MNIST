@@ -34,7 +34,7 @@ def main():
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=5)
     # optim = torch.optim.Adam(ddpm.parameters(), lr=lrate)
     model = ContextUnet(in_channels=1, n_feat=n_feat, n_classes=n_classes)
-    weight = torch.load('/home/evan.chen/Conditional_Diffusion_MNIST/test/weight/model_39.pth')
+    weight = torch.load('./weight/model_39.pth')
     ddpm = DDPM(nn_model=model, betas=(1e-4, 0.02), n_T=n_T, device=device, drop_prob=0.1)
     # print(weight.keys())
     ddpm.load_state_dict(weight)
